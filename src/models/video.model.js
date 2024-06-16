@@ -1,56 +1,41 @@
-import mongoose, { Schema, SchemaType } from "mongoose";
+import mongoose, { Schema, Timestamp } from "mongoose";
 
-const useSchema = new Schema(
+const videoSchema = new Schemaa(
   {
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-      trim: true,
-      index: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      lowercase: true,
-      unique: true,
-      trim: true,
-    },
-    fullname: {
-      type: String,
-      required: true,
-      trim: true,
-      index: true,
-    },
-    avatar: {
+    videoFile: {
       type: String,
       required: true,
     },
-    coverImage: {
+    thumbnail: {
       type: String,
+      required: true,
     },
-    watchHistory: [
-      {
-        typr: Schema.Types.ObjectId,
-        ref: "Video",
-      },
-    ],
-    password: {
-      type: String,
-      required: [true, "Password is required"],
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
-    refreshToken: {
+    title: {
       type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    duration: {
+      type: Number,
+    },
+    views: {
+      type: Number,
+      default: 0,
+    },
+    isPublished: {
+      type: Boolean,
+      default: true,
     },
   },
-  { timestamps: true },
+  { Timestamp: true },
 );
 
-
-
-
-
-
-
-export const User = mongoose.model("User", useSchema);
+export const Video = mongoose.model("Video", videoSchema);
