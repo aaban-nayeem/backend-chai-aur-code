@@ -101,6 +101,38 @@ const loginUser = asyncHandler(async (req, res) => {
   if (!isPasswordCorrect) {
     throw new ApiError(401, "Password is incorrect");
   }
+
+  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+    user._id,
+  );
+
+  const loggedInUser = await User.findById(User._id).select(
+    "-password -refreshToken",
+  );
+
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+      new ApiResponse(
+        {
+          user: loggedInUser,
+          accessToken,
+          refreshToken,
+        },
+        "User logged in successfully",
+      ),
+    );
+});
+
+const logoutUser = asyncHandler(async (req, res) => {
+  User.findById();
 });
 
 export { registerUser, loginUser };
