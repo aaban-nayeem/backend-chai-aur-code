@@ -135,7 +135,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   User.findById();
 });
 
-export { registerUser, loginUser };
+export { registerUser, loginUser, logoutUser };
 
 /**
  * get user detail from frontend or postman
